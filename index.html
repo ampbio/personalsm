@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>PERSONAL SM | Personal Trainer</title>
   <link rel="icon" type="image/png" href="imagens/fav.png" />
   <meta name="description" content="PERSONAL SM - Personal Trainer especialista em condicionamento esportivo e emagrecimento. Consultoria online e presencial. CREF 028816G/RS." />
@@ -21,7 +21,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
   <style>
     /* ── RESET ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,6 +37,7 @@
     html, body {
       background: var(--bg);
       min-height: 100vh;
+      overflow-x: hidden;
       font-family: 'Space Grotesk', sans-serif;
       color: #fff;
       -webkit-font-smoothing: antialiased;
@@ -87,7 +87,17 @@
       color: #ffffffcc;
     }
 
-    .cref-badge i { color: var(--red); font-size: 13px; }
+    .icon-svg {
+      display: inline-flex;
+      width: 1em;
+      height: 1em;
+      vertical-align: -0.14em;
+      flex-shrink: 0;
+    }
+
+    .icon-svg svg { width: 100%; height: 100%; display: block; }
+
+    .cref-badge .icon-svg { color: var(--red); font-size: 13px; }
 
     .tagline {
       font-size: 12px;
@@ -165,7 +175,7 @@
       align-items: center;
       justify-content: center;
       font-size: 19px;
-      color: #ffffffaa;
+      color: var(--red);
       cursor: pointer;
       text-decoration: none;
       transition: border-color 0.15s, background 0.15s, color 0.15s;
@@ -237,7 +247,7 @@
       justify-content: center;
       flex-shrink: 0;
       font-size: 17px;
-      color: #ffffffbb;
+      color: var(--red);
     }
 
     .btn-text {
@@ -352,17 +362,26 @@
 
     /* ── MODAL ── */
     .modal-backdrop {
-      display: none;
       position: fixed;
       inset: 0;
       background: #000000cc;
       z-index: 100;
+      display: flex;
       align-items: flex-end;
       justify-content: center;
       backdrop-filter: blur(6px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.28s ease, visibility 0s linear 0.28s;
     }
 
-    .modal-backdrop.open { display: flex; }
+    .modal-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transition: opacity 0.28s ease, visibility 0s linear 0s;
+    }
 
     .modal {
       width: 100%;
@@ -370,18 +389,18 @@
       background: #141414;
       border-top: 0.5px solid var(--red-dim);
       border-radius: 16px 16px 0 0;
-      padding: 22px 20px 36px;
+      padding: 22px 20px calc(36px + env(safe-area-inset-bottom));
       display: flex;
       flex-direction: column;
       gap: 16px;
-      animation: slideUp 0.25s ease;
       max-height: 82vh;
       overflow-y: auto;
+      transform: translateY(100%);
+      transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
     }
 
-    @keyframes slideUp {
-      from { transform: translateY(100%); opacity: 0; }
-      to   { transform: translateY(0);    opacity: 1; }
+    .modal-backdrop.open .modal {
+      transform: translateY(0);
     }
 
     .modal-header {
@@ -439,7 +458,7 @@
       color: #ffffffbb;
     }
 
-    .modal-list i { color: var(--red); font-size: 15px; margin-top: 1px; flex-shrink: 0; }
+    .modal-list .icon-svg { color: var(--red); font-size: 15px; margin-top: 1px; flex-shrink: 0; }
 
     .modal-actions {
       display: flex;
@@ -448,7 +467,9 @@
 
     /* ── SLIDER RESULTADOS ── */
     .modal.modal-fullscreen {
+      height: 92vh;
       height: 92dvh;
+      max-height: 92vh;
       max-height: 92dvh;
       overflow: hidden;
     }
@@ -594,7 +615,7 @@
 
     <!-- CREF -->
     <div class="cref-badge fade-up">
-      <i class="ti ti-shield-check" aria-hidden="true"></i>
+      <span class="icon-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L4 5V11C4 16 7.5 20.5 12 22C16.5 20.5 20 16 20 11V5L12 2Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="miter"/><path d="M8.5 12L11 14.5L16 9" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
       CREF 028816G/RS
     </div>
 
@@ -623,10 +644,10 @@
     <!-- REDES SOCIAIS -->
     <div class="social-row fade-up">
       <a class="soc-btn" href="https://www.instagram.com/personalsm/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-        <i class="ti ti-brand-instagram" aria-hidden="true"></i>
+        <span class="icon-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" stroke="currentColor" stroke-width="2.3"/><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="2.3"/><rect x="16.3" y="5.3" width="2" height="2" fill="currentColor"/></svg></span>
       </a>
       <a class="soc-btn" href="https://api.whatsapp.com/send?phone=5554996441017" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-        <i class="ti ti-brand-whatsapp" aria-hidden="true"></i>
+        <span class="icon-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3C7 3 3 6.8 3 11.5C3 13.4 3.7 15.1 4.9 16.5L4 21L8.7 19.8C9.7 20.2 10.8 20.4 12 20.4C17 20.4 21 16.6 21 11.9C21 7.2 17 3 12 3Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="miter"/><path d="M9 10C9 10 9.3 12 10.5 13.2C11.7 14.4 13.5 14.8 13.5 14.8L15 13.2" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
       </a>
     </div>
 
@@ -634,49 +655,49 @@
     <div class="section-label fade-up">Agende agora</div>
     <div class="links fade-up">
       <a class="link-btn primary" href="https://api.whatsapp.com/send?phone=5554996441017&text=Oi%21%20Quero%20agendar%20uma%20avalia%C3%A7%C3%A3o.%20Pode%20me%20dar%20mais%20detalhes%3F" target="_blank" rel="noopener noreferrer">
-        <div class="btn-icon"><i class="ti ti-calendar-check" aria-hidden="true"></i></div>
+        <div class="btn-icon"><span class="icon-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5H20V21H4V5Z" stroke="currentColor" stroke-width="2.3" stroke-linejoin="miter"/><path d="M4 10H20" stroke="currentColor" stroke-width="2.3"/><path d="M8 2V6" stroke="currentColor" stroke-width="2.3" stroke-linecap="square"/><path d="M16 2V6" stroke="currentColor" stroke-width="2.3" stroke-linecap="square"/><path d="M8.5 15L11 17.5L16 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></span></div>
         <div class="btn-text">
           <div class="btn-label">Agendar Avaliação</div>
         </div>
-        <i class="ti ti-arrow-right btn-arrow" aria-hidden="true"></i>
+        <span class="icon-svg btn-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12H19" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"/><path d="M14 6L20 12L14 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
       </a>
     </div>
 
     <div class="section-label fade-up">Consultorias</div>
     <div class="links fade-up">
       <a class="link-btn" href="https://api.whatsapp.com/send?phone=5554996441017&text=Oi!%20Tenho%20interesse%20na%20Consultoria%20Online.%20Pode%20me%20passar%20mais%20detalhes%3F" target="_blank" rel="noopener noreferrer">
-        <div class="btn-icon"><i class="ti ti-device-laptop" aria-hidden="true"></i></div>
+        <div class="btn-icon"><span class="icon-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M2 18L4 9H20L22 18" stroke="currentColor" stroke-width="2.3" stroke-linejoin="miter"/><path d="M1 18H23V20H1V18Z" stroke="currentColor" stroke-width="2.1" stroke-linejoin="miter"/><path d="M9 13H15" stroke="currentColor" stroke-width="2.1" stroke-linecap="square"/></svg></span></div>
         <div class="btn-text">
           <div class="btn-label">Consultoria Online</div>
         </div>
-        <i class="ti ti-arrow-right btn-arrow" aria-hidden="true"></i>
+        <span class="icon-svg btn-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12H19" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"/><path d="M14 6L20 12L14 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
       </a>
 
       <a class="link-btn" href="https://api.whatsapp.com/send?phone=5554996441017&text=Oi!%20Tenho%20interesse%20na%20Consultoria%20Presencial.%20Pode%20me%20passar%20mais%20detalhes%3F" target="_blank" rel="noopener noreferrer">
-        <div class="btn-icon"><i class="ti ti-barbell" aria-hidden="true"></i></div>
+        <div class="btn-icon"><span class="icon-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M2 11H4V13H2V11Z" fill="currentColor"/><path d="M20 11H22V13H20V11Z" fill="currentColor"/><path d="M5 8H7V16H5V8Z" fill="currentColor"/><path d="M17 8H19V16H17V8Z" fill="currentColor"/><path d="M4 12H20" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"/></svg></span></div>
         <div class="btn-text">
           <div class="btn-label">Consultoria Presencial</div>
         </div>
-        <i class="ti ti-arrow-right btn-arrow" aria-hidden="true"></i>
+        <span class="icon-svg btn-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12H19" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"/><path d="M14 6L20 12L14 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
       </a>
     </div>
 
     <div class="section-label fade-up">Conheça</div>
     <div class="links fade-up">
       <a class="link-btn" href="#" onclick="openModal('resultados', event)">
-        <div class="btn-icon"><i class="ti ti-trophy" aria-hidden="true"></i></div>
+        <div class="btn-icon"><span class="icon-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M6 3H18V9C18 12.3 15.3 15 12 15C8.7 15 6 12.3 6 9V3Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="miter"/><path d="M6 5H3V7C3 9 4.5 10.5 6 10.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/><path d="M18 5H21V7C21 9 19.5 10.5 18 10.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/><path d="M12 15V19" stroke="currentColor" stroke-width="2.2"/><path d="M8 21H16" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/></svg></span></div>
         <div class="btn-text">
           <div class="btn-label">Resultados</div>
         </div>
-        <i class="ti ti-arrow-right btn-arrow" aria-hidden="true"></i>
+        <span class="icon-svg btn-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12H19" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"/><path d="M14 6L20 12L14 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
       </a>
 
       <a class="link-btn" href="#" onclick="openModal('sobre', event)">
-        <div class="btn-icon"><i class="ti ti-user-check" aria-hidden="true"></i></div>
+        <div class="btn-icon"><span class="icon-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2.2"/><path d="M4 21C4 16.5 7.5 14 12 14C13 14 13.9 14.1 14.7 14.4" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/><path d="M15.5 18L17.3 19.8L21 16" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" stroke-linejoin="miter"/></svg></span></div>
         <div class="btn-text">
           <div class="btn-label">Sobre o Personal</div>
         </div>
-        <i class="ti ti-arrow-right btn-arrow" aria-hidden="true"></i>
+        <span class="icon-svg btn-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12H19" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"/><path d="M14 6L20 12L14 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
       </a>
     </div>
 
@@ -694,21 +715,21 @@
     <div class="modal">
       <div class="modal-header">
         <span class="modal-title">Sobre o Personal</span>
-        <button class="modal-close" aria-label="Fechar modal" onclick="closeModal('sobre')"><i class="ti ti-x"></i></button>
+        <button class="modal-close" aria-label="Fechar modal" onclick="closeModal('sobre')"><span class="icon-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 5L19 19" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"/><path d="M19 5L5 19" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"/></svg></span></button>
       </div>
       <div class="modal-body">
         <p>Samuel Rocha é Personal Trainer especialista em condicionamento esportivo e emagrecimento, com atendimento em consultoria online e presencial. Registro profissional <strong>CREF 028816G/RS</strong>.</p>
         <p>Treinos estruturados com foco em performance, estética e resultado, do primeiro treino ao acompanhamento contínuo de evolução.</p>
       </div>
       <ul class="modal-list">
-        <li><i class="ti ti-check" aria-hidden="true"></i> Avaliação física e definição de objetivos</li>
-        <li><i class="ti ti-check" aria-hidden="true"></i> Planejamento de treino individualizado</li>
-        <li><i class="ti ti-check" aria-hidden="true"></i> Acompanhamento de evolução e ajustes periódicos</li>
-        <li><i class="ti ti-check" aria-hidden="true"></i> Atendimento online e presencial</li>
+        <li><span class="icon-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="square" stroke-linejoin="miter"/></svg></span> Avaliação física e definição de objetivos</li>
+        <li><span class="icon-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="square" stroke-linejoin="miter"/></svg></span> Planejamento de treino individualizado</li>
+        <li><span class="icon-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="square" stroke-linejoin="miter"/></svg></span> Acompanhamento de evolução e ajustes periódicos</li>
+        <li><span class="icon-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="square" stroke-linejoin="miter"/></svg></span> Atendimento online e presencial</li>
       </ul>
       <div class="modal-actions">
         <a class="modal-open-btn" href="https://api.whatsapp.com/send?phone=5554996441017&text=Oi!%20Vi%20seu%20perfil%20e%20quero%20saber%20mais%20sobre%20os%20atendimentos!" target="_blank" rel="noopener noreferrer">
-          <i class="ti ti-brand-whatsapp"></i> Falar no WhatsApp
+          <span class="icon-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3C7 3 3 6.8 3 11.5C3 13.4 3.7 15.1 4.9 16.5L4 21L8.7 19.8C9.7 20.2 10.8 20.4 12 20.4C17 20.4 21 16.6 21 11.9C21 7.2 17 3 12 3Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="miter"/><path d="M9 10C9 10 9.3 12 10.5 13.2C11.7 14.4 13.5 14.8 13.5 14.8L15 13.2" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/></svg></span> Falar no WhatsApp
         </a>
       </div>
     </div>
@@ -719,7 +740,7 @@
     <div class="modal modal-fullscreen">
       <div class="modal-header">
         <span class="modal-title">Resultados</span>
-        <button class="modal-close" aria-label="Fechar modal" onclick="closeModal('resultados')"><i class="ti ti-x"></i></button>
+        <button class="modal-close" aria-label="Fechar modal" onclick="closeModal('resultados')"><span class="icon-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 5L19 19" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"/><path d="M19 5L5 19" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"/></svg></span></button>
       </div>
 
       <div class="slider-wrap">
@@ -739,20 +760,20 @@
         </div>
 
         <div class="slider-nav">
-          <button class="slider-arrow" aria-label="Post anterior" onclick="slideResultados(-1)"><i class="ti ti-chevron-left"></i></button>
+          <button class="slider-arrow" aria-label="Post anterior" onclick="slideResultados(-1)"><span class="icon-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></span></button>
           <div class="slider-dots" id="resultados-dots">
             <div class="slider-dot active" onclick="goToSlideResultados(0)"></div>
             <div class="slider-dot" onclick="goToSlideResultados(1)"></div>
             <div class="slider-dot" onclick="goToSlideResultados(2)"></div>
             <div class="slider-dot" onclick="goToSlideResultados(3)"></div>
           </div>
-          <button class="slider-arrow" aria-label="Próximo post" onclick="slideResultados(1)"><i class="ti ti-chevron-right"></i></button>
+          <button class="slider-arrow" aria-label="Próximo post" onclick="slideResultados(1)"><span class="icon-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></span></button>
         </div>
       </div>
 
       <div class="modal-actions">
         <a class="modal-open-btn" href="https://www.instagram.com/personalsm/" target="_blank" rel="noopener noreferrer">
-          <i class="ti ti-brand-instagram"></i> Ver mais no Instagram
+          <span class="icon-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" stroke="currentColor" stroke-width="2.3"/><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="2.3"/><rect x="16.3" y="5.3" width="2" height="2" fill="currentColor"/></svg></span> Ver mais no Instagram
         </a>
       </div>
     </div>
